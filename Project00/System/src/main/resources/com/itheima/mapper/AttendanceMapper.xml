@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.AttendanceMapper">
+
+    <select id="list" resultType="com.itheima.pojo.Attendance">
+        select a.*
+        from  attendance a
+        <where>
+            <if test="username != null and username != ''">
+            a.username like concat('%', #{username}, '%')
+            </if>
+            <if test="createTime != null and updateTime != null">
+            and a.create_time between #{createTime} and #{updateTime}
+            </if>
+
+    </where>order by a.create_time desc
+    </select>
+</mapper>

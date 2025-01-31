@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.ActivityMapper">
+    <update id="update">
+         update activity
+        <set>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+
+            <if test="updateTime != null">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteById">
+        delete from activity where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="list" resultType="com.itheima.pojo.Activity">
+         select a.*
+        from  activity a
+        <where>
+            <if test="content != null and content != ''">
+            a.content like concat('%', #{content}, '%')
+            </if>
+            <if test="createTime != null and updateTime != null">
+            and a.create_time between #{createTime} and #{updateTime}
+            </if>
+
+    </where>order by a.create_time desc
+    </select>
+
+</mapper>

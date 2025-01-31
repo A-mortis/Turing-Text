@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.ResignationMapper">
+<!--根据id更新-->
+    <update id="update" parameterType="com.itheima.pojo.Resignation">
+        update resignation
+        <set>
+            <if test="reason != null and reason != ''">
+                reason = #{reason},
+            </if>
+            <if test="time != null and time != ''">
+                time = #{time},
+            </if>
+        </set>
+        where `index` = #{index}
+    </update>
+
+<!--根据id删除员工-->
+    <delete id="deleteByIndex">
+        delete from resignation where `index` in
+        <foreach collection="indexes" item="index" open="(" close=")" separator=",">
+            #{index}
+        </foreach>
+    </delete>
+
+    <select id="page" resultType="com.itheima.pojo.Resignation">
+        select r.*
+        from resignation r
+    </select>
+</mapper>
